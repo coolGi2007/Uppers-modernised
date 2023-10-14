@@ -294,7 +294,12 @@ public class UpperBlockEntity extends RandomizableContainerBlockEntity implement
 	}
 
 	public static Container getSourceContainer(Level level, IUpper upper) {
-		return getContainerAt(level, upper.getLevelX(), upper.getLevelY() - 1.0D, upper.getLevelZ());
+		return getContainerAt(level,
+				// TODO: Find a better way of doing this
+				Math.round(Float.valueOf(String.valueOf(upper.getLevelX()))),
+				Math.round(Float.valueOf(String.valueOf(upper.getLevelY()))),
+				Math.round(Float.valueOf(String.valueOf(upper.getLevelZ())))
+		);
 	}
 
 	public static List<ItemEntity> getItemsAtAndAbove(Level level, IUpper upper) {
@@ -305,11 +310,11 @@ public class UpperBlockEntity extends RandomizableContainerBlockEntity implement
 
 	@Nullable
 	public static Container getContainerAt(Level level, BlockPos pos) {
-		return getContainerAt(level, (double) pos.getX() + 0.5D, (double) pos.getY() + 0.5D, (double) pos.getZ() + 0.5D);
+		return getContainerAt(level, pos.getX(), pos.getX(), pos.getX());
 	}
 
 	@Nullable
-	public static Container getContainerAt(Level level, double x, double y, double z) {
+	public static Container getContainerAt(Level level, int x, int y, int z) {
 		Container container = null;
 		BlockPos blockpos = new BlockPos(x, y, z);
 		BlockState state = level.getBlockState(blockpos);
@@ -342,23 +347,23 @@ public class UpperBlockEntity extends RandomizableContainerBlockEntity implement
 		} else if (stack1.getCount() > stack1.getMaxStackSize()) {
 			return false;
 		} else {
-			return ItemStack.tagMatches(stack1, stack2);
+			return ItemStack.isSameItem(stack1, stack2);
 		}
 	}
 
 	@Override
 	public double getLevelX() {
-		return (double) this.worldPosition.getX() + 0.5D;
+		return this.worldPosition.getX();
 	}
 
 	@Override
 	public double getLevelY() {
-		return (double) this.worldPosition.getY() + 0.5D;
+		return this.worldPosition.getY();
 	}
 
 	@Override
 	public double getLevelZ() {
-		return (double) this.worldPosition.getZ() + 0.5D;
+		return this.worldPosition.getZ();
 	}
 
 	public void setCooldown(int ticks) {

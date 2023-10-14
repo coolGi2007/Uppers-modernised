@@ -15,8 +15,7 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
-import net.minecraft.world.level.material.Material;
-import net.minecraft.world.level.material.MaterialColor;
+import net.minecraft.world.level.material.MapColor;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.MinecraftForge;
@@ -35,10 +34,10 @@ public class Uppers {
 	private static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, Reference.MOD_ID);
 	private static final DeferredRegister<BlockEntityType<?>> TILES = DeferredRegister.create(ForgeRegistries.BLOCK_ENTITY_TYPES, Reference.MOD_ID);
 
-	public static final RegistryObject<Block> UPPER = BLOCKS.register(Reference.UPPER, () -> new UpperBlock(BlockBehaviour.Properties.of(Material.METAL, MaterialColor.STONE).requiresCorrectToolForDrops().strength(3.0F, 4.8F).sound(SoundType.METAL).noOcclusion()));
+	public static final RegistryObject<Block> UPPER = BLOCKS.register(Reference.UPPER, () -> new UpperBlock(BlockBehaviour.Properties.of().mapColor(MapColor.STONE).requiresCorrectToolForDrops().strength(3.0F, 4.8F).sound(SoundType.METAL).noOcclusion()));
 	
 	public static final RegistryObject<BlockItem> UPPER_ITEM = ITEMS.register(Reference.UPPER, () -> 
-	new BlockItem(UPPER.get(), new Item.Properties().tab(Uppers.TAB)) {
+	new BlockItem(UPPER.get(), new Item.Properties()) { // TODO: define the tab
 		@Override
 		@OnlyIn(Dist.CLIENT)
 		   public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> tooltip, TooltipFlag flagIn) {
@@ -57,12 +56,5 @@ public class Uppers {
 		TILES.register(modEventBus);
 		MinecraftForge.EVENT_BUS.register(this);
 	}
-
-	public static CreativeModeTab TAB = new CreativeModeTab(Reference.MOD_ID) {
-		@Override
-		public ItemStack makeIcon() {
-			return new ItemStack(UPPER_ITEM.get());
-		}
-	};
 
 }

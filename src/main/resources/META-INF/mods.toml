@@ -19,7 +19,7 @@ displayURL="https://github.com/vadis365/Uppers"
      # A display name for the mod
     displayName="Uppers" #mandatory
     credits="Thanks to people and stuff." #optional
-    authors="vadis365" #optional
+    authors=["vadis365", "coolGi"] #optional
     # The description text for the mod (multi line!) (#mandatory)
     description='''
 A mod that adds upside-down hoppers.
@@ -40,6 +40,6 @@ A mod that adds upside-down hoppers.
 [[dependencies.uppers]]
     modId="minecraft"
     mandatory=true
-    versionRange="[1.19.2,1.20)"
+    versionRange="[1.20.1,)"
     ordering="NONE"
     side="BOTH"
