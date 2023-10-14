@@ -26,6 +26,7 @@ import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 import uppers.blocks.UpperBlock;
+import uppers.events.CreativeTabEvents;
 import uppers.tiles.UpperBlockEntity;
 
 @Mod(Reference.MOD_ID)
@@ -37,15 +38,14 @@ public class Uppers {
 	public static final RegistryObject<Block> UPPER = BLOCKS.register(Reference.UPPER, () -> new UpperBlock(BlockBehaviour.Properties.of().mapColor(MapColor.STONE).requiresCorrectToolForDrops().strength(3.0F, 4.8F).sound(SoundType.METAL).noOcclusion()));
 	
 	public static final RegistryObject<BlockItem> UPPER_ITEM = ITEMS.register(Reference.UPPER, () -> 
-	new BlockItem(UPPER.get(), new Item.Properties()) { // TODO: define the tab
+	new BlockItem(UPPER.get(), new Item.Properties()) {
 		@Override
 		@OnlyIn(Dist.CLIENT)
-		   public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> tooltip, TooltipFlag flagIn) {
+		public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> tooltip, TooltipFlag flagIn) {
 			tooltip.add(Component.translatable("tooltip.upper_1"));
 			tooltip.add(Component.translatable("tooltip.upper_2"));
-			}
 		}
-	);
+	});
 
 	public static final RegistryObject<BlockEntityType<UpperBlockEntity>> UPPER_TILE = TILES.register(Reference.UPPER, () -> BlockEntityType.Builder.of(UpperBlockEntity::new, UPPER.get()).build(null));
 	
@@ -55,6 +55,9 @@ public class Uppers {
 		ITEMS.register(modEventBus);
 		TILES.register(modEventBus);
 		MinecraftForge.EVENT_BUS.register(this);
+
+		// Register the block in the creative inventory
+		modEventBus.addListener(CreativeTabEvents::onCreativeModeTabBuildContents);
 	}
 
 }
